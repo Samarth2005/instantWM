@@ -1,0 +1,46 @@
+#!/bin/bash
+
+###############################################
+## x session for instantOS, use with lightdm ##
+###############################################
+
+# used for shutdown
+echo $$ > /tmp/instantosrunning
+
+# just in case, some systems might not do this
+cd
+
+# execute autostart even if instantautostart doesn't work
+if ! command -v instantautostart &>/dev/null; then
+    sleep 4
+    bash ~/.instantautostart
+fi &
+
+# loop so crashing instantwm doesn't end the x session
+while [ -e /tmp/instantosrunning ]; do
+    # allow changing wm on the fly
+    if [ -e /tmp/wmoverride ]; then
+        if command -v "$(cat /tmp/wmoverride)" &>/dev/null; then
+            "$(cat /tmp/wmoverride)" 2>~/.instantos.log &
+            WMPID="$!"
+            echo "$WMPID" >/tmp/wmpid
+            while kill -0 "$WMPID"; do
+                sleep 1
+            done
+        fi
+        rm /tmp/wmoverride
+    else
+        # Log stderror or stdout to a file
+        if ! [ -e .local/share ]
+        then
+            mkdir -p ~/.local/share
+        fi
+
+        if iconf -i debug
+        then
+            instantwm &>~/.local/share/instantos.log
+        else
+            instantwm 2>~/.local/share/instantos.log
+        fi
+    fi
+done
