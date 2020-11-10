@@ -1,12 +1,8 @@
-<div align="center">
-    <h1>instantWM</h1>
-    <p>Window manager for instantOS</p>
-    <img width="300" height="300" src="https://media.githubusercontent.com/media/instantOS/instantLOGO/master/png/wm.png">
-</div>
+This is my fork of the InstantWM, which is the default window manager for [InstantOS](https://github.com/instantOS)
 
-instantWM the window manager of instantOS. 
-
-![img](https://github.com/instantOS/instantLOGO/blob/master/screeenshots/screenshot1.png)
+Some of the extra features that I have added are:
+- Gaps
+- Some Theming (OneDark to be specific)
 
 ## Installation
 It is preinstalled on instantOS  
